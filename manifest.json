@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-22T10:20:36+08:00",
+  "last_updated": "2026-11-22T10:24:14+08:00",
   "latest_date": "2026-11-22",
   "total_records": 1,
   "records": [
@@ -8,7 +8,7 @@
       "weekday": "星期日",
       "json_path": "archive/2026/11/2026-11-22.json",
       "audio_path": "archive/2026/11/2026-11-22.mp3",
-      "audio_bytes": 436992,
+      "audio_bytes": 221856,
       "headline": "今日明顯回暖 晚間有微雨",
       "ai_comparison": "今日受偏東氣流影響明顯回暖，澳門半島市區早上氣溫已升至20.5至21.2°C，較昨日同時段暖約3至4°C；濕度回升且晚間維持偏暖，體感比昨日和暖舒適。",
       "chart": {
