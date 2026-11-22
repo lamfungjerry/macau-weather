@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="澳門天氣" />
+  <meta name="theme-color" content="#2c5e8a" id="theme-meta" />
+  <title>澳門每日天氣簡報</title>
+  <!-- 內嵌主畫面圖示（加至 iPhone 主畫面時自動顯示） -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%232575fc'/%3E%3Cstop offset='100%25' stop-color='%236a11cb'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' rx='40' fill='url(%23g)'/%3E%3Ccircle cx='90' cy='78' r='28' fill='%23FFD54F'/%3E%3Cpath d='M55 126h70a22 22 0 0 0 2-43.9A32 32 0 0 0 65 76a26 26 0 0 0-10 50z' fill='%23FFFFFF' fill-opacity='0.92'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.16);
+      --glass-bg-strong: rgba(255, 255, 255, 0.24);
+      --glass-border: rgba(255, 255, 255, 0.25);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.82);
+      --text-muted: rgba(255, 255, 255, 0.65);
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang HK", "Noto Sans TC", sans-serif;
+      color: var(--text-primary);
+      background: linear-gradient(160deg, #2c5e8a 0%, #5689b5 55%, #8fb4d4 100%);
+      background-attachment: fixed;
+      transition: background 0.6s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 動態天氣背景主題 */
+    body.theme-sunny {
+      background: linear-gradient(160deg, #1b6ca8 0%, #3b9ad9 52%, #e89f4c 100%);
+    }
+    body.theme-partly_cloudy {
+      background: linear-gradient(160deg, #295c8a 0%, #4e84b4 55%, #89b0d1 100%);
+    }
+    body.theme-cloudy {
+      background: linear-gradient(160deg, #3a4c63 0%, #586e87 55%, #7b90a6 100%);
+    }
+    body.theme-rain {
+      background: linear-gradient(160deg, #1b2f47 0%, #2d4b6e 55%, #46698c 100%);
+    }
+    body.theme-storm {
+      background: linear-gradient(160deg, #141b29 0%, #26324a 55%, #3a4863 100%);
+    }
+
+    .app-container {
+      max-width: 460px;
+      margin: 0 auto;
+      padding: calc(max(14px, env(safe-area-inset-top)) + 6px) 18px calc(max(24px, env(safe-area-inset-bottom)) + 16px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* 1. 頂部狀態列 */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .location-info h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .location-sub {
+      margin-top: 3px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .history-btn {
+      appearance: none;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .history-btn:active {
+      transform: scale(0.95);
+      background: var(--glass-bg-strong);
+    }
+
+    /* 警告橫幅 */
+    .warning-banner {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 15px;
+      border-radius: var(--radius-md);
+      background: rgba(245, 158, 11, 0.28);
+      border: 1px solid rgba(253, 224, 71, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .warning-banner.show {
+      display: flex;
+    }
+
+    /* 通用毛玻璃卡片 */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    /* 2. 核心天氣主卡片 (Hero Card) */
+    .hero-card {
+      padding: 20px 20px 18px;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .temp-display {
+      font-size: 46px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .temp-unit {
+      font-size: 24px;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .hero-icon-wrap {
+      width: 68px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hero-headline {
+      margin: 10px 0 12px;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: #ffffff;
+    }
+
+    .delta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .delta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .delta-pill.warmer {
+      background: rgba(251, 146, 60, 0.28);
+      border-color: rgba(253, 186, 116, 0.45);
+      color: #fff7ed;
+    }
+
+    .delta-pill.cooler {
+      background: rgba(56, 189, 248, 0.28);
+      border-color: rgba(125, 211, 252, 0.45);
+      color: #f0f9ff;
+    }
+
+    /* 3. 語音簡報播放器 (拇指黃金區) */
+    .player-card {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .play-btn {
+      appearance: none;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #1e3a5f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      transition: transform 0.15s ease;
+    }
+
+    .play-btn:active {
+      transform: scale(0.92);
+    }
+
+    .player-middle {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .player-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .player-time {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-bar {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.28);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .progress-bar::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .speed-btn {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 9px;
+      border-radius: 10px;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .speed-btn:active {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    /* 4. 今日行動建議卡 */
+    .advice-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .advice-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin: 0 0 7px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .advice-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .advice-list li {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.45;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .advice-list li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      color: rgba(255, 255, 255, 0.75);
+      font-weight: 700;
+    }
+
+    .advice-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .comparison-text {
+      margin: 0;
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.94);
+    }
+
+    /* 5. 四格簡明數據卡 (2x2) */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 11px;
+    }
+
+    .metric-box {
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 13px 15px;
+    }
+
+    .metric-label {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .metric-value {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 6. 摺疊詳細報告 */
+    .details-toggle {
+      appearance: none;
+      width: 100%;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 13px 16px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .details-drawer {
+      display: none;
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .details-drawer.open {
+      display: block;
+    }
+
+    .details-drawer h1, .details-drawer h2, .details-drawer h3 {
+      font-size: 15px;
+      margin: 14px 0 6px;
+      color: #ffffff;
+    }
+
+    .details-drawer h1:first-child, .details-drawer h2:first-child {
+      margin-top: 0;
+    }
+
+    .details-drawer ul {
+      margin: 4px 0 10px;
+      padding-left: 18px;
+    }
+
+    .details-drawer li {
+      margin-bottom: 4px;
+    }
+
+    .details-drawer a {
+      color: #bae6fd;
+      text-decoration: underline;
+    }
+
+    /* 載入與錯誤狀態 */
+    .status-box {
+      text-align: center;
+      padding: 36px 20px;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    .retry-btn {
+      margin-top: 12px;
+      appearance: none;
+      border: none;
+      background: #ffffff;
+      color: #1e3a5f;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    /* 預留：歷史 / 走勢底部彈出面板 (Modal Drawer) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 18, 30, 0.58);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 460px;
+      background: #1e293b;
+      border-top-left-radius: 26px;
+      border-top-right-radius: 26px;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 20px 20px calc(max(24px, env(safe-area-inset-bottom)) + 12px);
+      color: #f8fafc;
+      animation: slideUp 0.24s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      appearance: none;
+      border: none;
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .reserved-slot {
+      border: 1.5px dashed rgba(148, 163, 184, 0.45);
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .reserved-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.2);
+      color: #7dd3fc;
+      margin-bottom: 6px;
+    }
+
+    .reserved-slot h3 {
+      margin: 0 0 4px;
+      font-size: 14.5px;
+    }
+
+    .reserved-slot p {
+      margin: 0;
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body class="theme-partly_cloudy">
+  <div class="app-container" id="app">
+    <div class="glass-card status-box" id="loading-box">
+      正在載入澳門最新天氣簡報...
+    </div>
+  </div>
+
+  <!-- 隱藏原生 Audio 元件 -->
+  <audio id="weather-audio" preload="metadata"></audio>
+
+  <!-- 預留：歷史走勢與日期切換面板 -->
+  <div class="modal-backdrop" id="history-modal" onclick="if(event.target===this) closeHistoryModal()">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2>📅 歷史天氣與走勢（預留擴展）</h2>
+        <button class="close-btn" onclick="closeHistoryModal()" aria-label="關閉">✕</button>
+      </div>
+      <div class="reserved-slot" id="reserved-chart-slot">
+        <span class="reserved-tag">預留區塊 1 · 趨勢圖表</span>
+        <h3>📈 過去氣溫高低走勢圖</h3>
+        <p>已預留接入 <code>manifest.json</code> 與 Chart.js，後續可直接在此顯示多日最高／最低溫起伏曲線與降雨對比。</p>
+      </div>
+      <div class="reserved-slot" id="reserved-date-slot">
+        <span class="reserved-tag">預留區塊 2 · 日期重溫</span>
+        <h3>🗓️ 點選昨日／前日天氣</h3>
+        <p>頁面底層已採用單一模板渲染（<code>renderWeatherView</code>），日後點選任何歷史日期即可直接套用主畫面查看當日建議與重聽語音。</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const audioEl = document.getElementById('weather-audio');
+    const speeds = [1.0, 1.25, 1.5];
+    let currentSpeedIdx = 0;
+
+    // 啟動載入 latest.json（加上時間戳記穿透快取）
+    async function initApp() {
+      const appEl = document.getElementById('app');
+      try {
+        const res = await fetch(`./latest.json?v=${Date.now()}`);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status} 無法讀取 latest.json`);
+        }
+        const data = await res.json();
+        renderWeatherView(data);
+      } catch (err) {
+        alert(`讀取天氣資料失敗：${err.message}`);
+        appEl.innerHTML = `
+          <div class="glass-card status-box">
+            <div style="font-size:32px;margin-bottom:8px;">⚠️</div>
+            <div>暫時無法取得最新天氣資料</div>
+            <div style="font-size:12px;opacity:0.75;margin-top:4px;">${escapeHtml(err.message)}</div>
+            <button class="retry-btn" onclick="location.reload()">重新載入</button>
+          </div>
+        `;
+      }
+    }
+
+    /**
+     * 核心渲染函式：同時兼容 latest.json 與日後歷史存檔 archive/YYYY/MM/YYYY-MM-DD.json
+     */
+    function renderWeatherView(data) {
+      const appEl = document.getElementById('app');
+      const chart = data.chart || {};
+      const content = data.content || {};
+
+      // 1. 套用動態天氣背景主題
+      const iconKey = ['sunny', 'partly_cloudy', 'cloudy', 'rain', 'storm'].includes(chart.icon)
+        ? chart.icon
+        : 'partly_cloudy';
+      document.body.className = `theme-${iconKey}`;
+
+      // 2. 格式化日期顯示 (YYYY-MM-DD -> M月D日)
+      const dateLabel = formatChineseDate(data.date);
+      const weekdayLabel = data.weekday || '';
+      const updatedText = data.updated_at ? `${data.updated_at} 更新` : '每日自動更新';
+
+      // 3. 處理昨日溫差膠囊標籤
+      const minDeltaHtml = buildDeltaPill('最低溫', chart.temp_min_delta);
+      const maxDeltaHtml = buildDeltaPill('最高溫', chart.temp_max_delta);
+
+      // 4. 解析穿衣與帶遮建議（從 lockscreen_text 抽出條列重點）
+      const adviceItems = parseAdviceBullets(content.lockscreen_text);
+      const adviceListHtml = adviceItems
+        .map(item => `<li>${escapeHtml(item)}</li>`)
+        .join('');
+
+      // 5. 計算日夜溫差與紫外線等級
+      const tempSpread = (typeof chart.temp_max === 'number' && typeof chart.temp_min === 'number')
+        ? `${chart.temp_max - chart.temp_min}°C`
+        : '--';
+      const uvLabel = typeof chart.uv_index === 'number'
+        ? `${chart.uv_index} (${getUvLevel(chart.uv_index)})`
+        : '--';
+
+      // 6. 渲染主畫面結構
+      appEl.innerHTML = `
+        <!-- 頂部狀態列 -->
+        <header class="top-bar">
+          <div class="location-info">
+            <h1>📍 澳門 · ${escapeHtml(dateLabel)} ${escapeHtml(weekdayLabel)}</h1>
+            <div class="location-sub">
+              <span>${escapeHtml(updatedText)}</span>
+            </div>
+          </div>
+          <button class="history-btn" onclick="openHistoryModal()">📅 歷史 / 走勢</button>
+        </header>
+
+        <!-- 動態天氣警告橫幅（無警告時自動隱藏） -->
+        <div class="warning-banner ${chart.warning ? 'show' : ''}">
+          <span style="font-size:18px;">⚠️</span>
+          <span>生效警告：${escapeHtml(chart.warning || '')}</span>
+        </div>
+
+        <!-- 核心天氣主卡片 -->
+        <section class="glass-card hero-card">
+          <div class="hero-top">
+            <div class="temp-display">
+              ${chart.temp_min ?? '--'}<span class="temp-unit">°</span> ~ ${chart.temp_max ?? '--'}<span class="temp-unit">°C</span>
+            </div>
+            <div class="hero-icon-wrap">
+              ${getWeatherSvg(iconKey)}
+            </div>
+          </div>
+          <div class="hero-headline">${escapeHtml(content.headline || '今日天氣簡報')}</div>
+          <div class="delta-row">
+            ${minDeltaHtml}
+            ${maxDeltaHtml}
+          </div>
+        </section>
+
+        <!-- 拇指黃金區：廣東話語音簡報播放器 -->
+        <section class="glass-card player-card">
+          <button class="play-btn" id="play-toggle-btn" onclick="toggleAudio()" aria-label="播放或暫停語音">
+            <svg id="play-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+          <div class="player-middle">
+            <div class="player-title-row">
+              <span>🔊 廣東話天氣語音簡報</span>
+              <span class="player-time" id="audio-time">00:00 / --:--</span>
+            </div>
+            <input type="range" class="progress-bar" id="audio-progress" value="0" min="0" max="100" step="0.1" />
+          </div>
+          <button class="speed-btn" id="speed-btn" onclick="cycleSpeed()">1.0x</button>
+        </section>
+
+        <!-- 今日行動建議與昨日對比 -->
+        <section class="glass-card advice-card">
+          <div>
+            <h2 class="advice-section-title">👕 穿衣與帶遮建議</h2>
+            <ul class="advice-list">
+              ${adviceListHtml}
+            </ul>
+          </div>
+          <div class="advice-divider"></div>
+          <div>
+            <h2 class="advice-section-title">🔄 昨日天氣對比</h2>
+            <p class="comparison-text">${escapeHtml(content.ai_comparison || '暫無昨日對比摘要')}</p>
+          </div>
+        </section>
+
+        <!-- 四格簡明數據卡 -->
+        <section class="metrics-grid">
+          <div class="metric-box">
+            <div class="metric-label">💧 相對濕度</div>
+            <div class="metric-value">${chart.humidity_min ?? '--'}% - ${chart.humidity_max ?? '--'}%</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">☔ 降雨機率</div>
+            <div class="metric-value">${chart.rain_prob ?? '--'}%</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">☀️ 紫外線指數</div>
+            <div class="metric-value">${escapeHtml(uvLabel)}</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">🌡️ 日夜溫差</div>
+            <div class="metric-value">${escapeHtml(tempSpread)}</div>
+          </div>
+        </section>
+
+        <!-- 底部摺疊：分區實況與氣象局來源 -->
+        <div>
+          <button class="details-toggle" onclick="toggleDetails()">
+            <span>📄 查看各區實況與氣象局來源</span>
+            <span id="details-arrow">▼</span>
+          </button>
+          <div class="glass-card details-drawer" id="details-drawer">
+            ${simpleMarkdownToHtml(content.full_markdown || '')}
+          </div>
+        </div>
+      `;
+
+      // 7. 綁定音訊來源（同時支援 latest.json 的 audio_url 與歸檔的 audio.path）
+      const rawAudioUrl = data.audio_url || (data.audio && data.audio.path ? `./${data.audio.path}` : '');
+      if (rawAudioUrl) {
+        const sep = rawAudioUrl.includes('?') ? '&' : '?';
+        audioEl.src = `${rawAudioUrl}${sep}t=${Date.now()}`;
+      }
+      setupAudioEvents();
+    }
+
+    // 音訊播放器控制邏輯
+    function setupAudioEvents() {
+      const progressEl = document.getElementById('audio-progress');
+      const timeEl = document.getElementById('audio-time');
+      const playIcon = document.getElementById('play-icon');
+
+      audioEl.onloadedmetadata = () => {
+        timeEl.textContent = `00:00 / ${formatSeconds(audioEl.duration)}`;
+      };
+
+      audioEl.ontimeupdate = () => {
+        if (!audioEl.duration) return;
+        const pct = (audioEl.currentTime / audioEl.duration) * 100;
+        progressEl.value = pct;
+        timeEl.textContent = `${formatSeconds(audioEl.currentTime)} / ${formatSeconds(audioEl.duration)}`;
+      };
+
+      audioEl.onplay = () => {
+        playIcon.innerHTML = '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>';
+      };
+
+      audioEl.onpause = audioEl.onended = () => {
+        playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      };
+
+      audioEl.onerror = () => {
+        timeEl.textContent = '音檔載入失敗';
+      };
+
+      progressEl.oninput = () => {
+        if (!audioEl.duration) return;
+        audioEl.currentTime = (progressEl.value / 100) * audioEl.duration;
+      };
+    }
+
+    function toggleAudio() {
+      if (!audioEl.src) {
+        alert('找不到語音檔案連結');
+        return;
+      }
+      if (audioEl.paused) {
+        audioEl.play().catch(err => alert(`無法播放語音：${err.message}`));
+      } else {
+        audioEl.pause();
+      }
+    }
+
+    function cycleSpeed() {
+      currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
+      const rate = speeds[currentSpeedIdx];
+      audioEl.playbackRate = rate;
+      document.getElementById('speed-btn').textContent = `${rate.toFixed(rate === 1 || rate === 1.5 ? 1 : 2)}x`;
+    }
+
+    function toggleDetails() {
+      const drawer = document.getElementById('details-drawer');
+      const arrow = document.getElementById('details-arrow');
+      const isOpen = drawer.classList.toggle('open');
+      arrow.textContent = isOpen ? '▲' : '▼';
+    }
+
+    function openHistoryModal() {
+      document.getElementById('history-modal').classList.add('open');
+    }
+
+    function closeHistoryModal() {
+      document.getElementById('history-modal').classList.remove('open');
+    }
+
+    // 輔助函式
+    function formatChineseDate(dateStr) {
+      if (!dateStr) return '';
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      return `${parseInt(parts[1], 10)}月${parseInt(parts[2], 10)}日`;
+    }
+
+    function buildDeltaPill(label, delta) {
+      if (typeof delta !== 'number') return '';
+      if (delta > 0) {
+        return `<span class="delta-pill warmer">${label} ▲${delta}°C</span>`;
+      } else if (delta < 0) {
+        return `<span class="delta-pill cooler">${label} ▼${Math.abs(delta)}°C</span>`;
+      }
+      return `<span class="delta-pill">${label} 持平</span>`;
+    }
+
+    function parseAdviceBullets(lockscreenText) {
+      if (!lockscreenText) return ['暫無穿衣建議'];
+      const lines = lockscreenText
+        .split(/
+?
+/)
+        .map(l => l.trim())
+        .filter(l => l && !l.startsWith('【'));
+      if (lines.length === 0) return [lockscreenText];
+      return lines.map(l => l.replace(/^[•\-*]\s*/, ''));
+    }
+
+    function getUvLevel(uv) {
+      if (uv <= 2) return '低';
+      if (uv <= 5) return '中等';
+      if (uv <= 7) return '高';
+      if (uv <= 10) return '甚高';
+      return '極高';
+    }
+
+    function formatSeconds(sec) {
+      if (!isFinite(sec)) return '--:--';
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function simpleMarkdownToHtml(md) {
+      if (!md) return '';
+      const lines = md.split(/
+?
+/);
+      let html = '';
+      let inList = false;
+
+      for (let rawLine of lines) {
+        const line = rawLine.trim();
+        if (!line) {
+          if (inList) { html += '</ul>'; inList = false; }
+          continue;
+        }
+        if (line.startsWith('### ')) {
+          if (inList) { html += '</ul>'; inList = false; }
+          html += `<h3>${inlineMd(line.slice(4))}</h3>`;
+        } else if (line.startsWith('## ')) {
+          if (inList) { html += '</ul>'; inList = false; }
+          html += `<h2>${inlineMd(line.slice(3))}</h2>`;
+        } else if (line.startsWith('# ')) {
+          if (inList) { html += '</ul>'; inList = false; }
+          html += `<h1>${inlineMd(line.slice(2))}</h1>`;
+        } else if (line.startsWith('- ') || line.startsWith('* ')) {
+          if (!inList) { html += '<ul>'; inList = true; }
+          html += `<li>${inlineMd(line.slice(2))}</li>`;
+        } else {
+          if (inList) { html += '</ul>'; inList = false; }
+          html += `<p style="margin:6px 0;">${inlineMd(line)}</p>`;
+        }
+      }
+      if (inList) html += '</ul>';
+      return html;
+    }
+
+    function inlineMd(text) {
+      let safe = escapeHtml(text);
+      safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      safe = safe.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      return safe;
+    }
+
+    // 精緻向量天氣圖示
+    function getWeatherSvg(type) {
+      const svgs = {
+        sunny: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="14" fill="#FFD54F"/>
+          <g stroke="#FFD54F" stroke-width="3.5" stroke-linecap="round">
+            <line x1="32" y1="6" x2="32" y2="12"/><line x1="32" y1="52" x2="32" y2="58"/>
+            <line x1="6" y1="32" x2="12" y2="32"/><line x1="52" y1="32" x2="58" y2="32"/>
+            <line x1="13.6" y1="13.6" x2="17.9" y2="17.9"/><line x1="46.1" y1="46.1" x2="50.4" y2="50.4"/>
+            <line x1="50.4" y1="13.6" x2="46.1" y2="17.9"/><line x1="17.9" y1="46.1" x2="13.6" y2="50.4"/>
+          </g>
+        </svg>`,
+        partly_cloudy: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <circle cx="24" cy="24" r="11" fill="#FFD54F"/>
+          <path d="M20 48h26a11 11 0 0 0 1-21.95A15 15 0 0 0 18.5 23 12.5 12.5 0 0 0 20 48z" fill="#FFFFFF" fill-opacity="0.95"/>
+        </svg>`,
+        cloudy: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <path d="M24 38h24a9 9 0 0 0 .8-17.96A12 12 0 0 0 25.5 18 10 10 0 0 0 24 38z" fill="#CBD5E1" fill-opacity="0.7"/>
+          <path d="M16 48h30a11 11 0 0 0 1-21.95A15 15 0 0 0 18.5 23 12.5 12.5 0 0 0 16 48z" fill="#FFFFFF" fill-opacity="0.95"/>
+        </svg>`,
+        rain: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <path d="M16 40h30a11 11 0 0 0 1-21.95A15 15 0 0 0 18.5 15 12.5 12.5 0 0 0 16 40z" fill="#FFFFFF" fill-opacity="0.92"/>
+          <g stroke="#7DD3FC" stroke-width="3.2" stroke-linecap="round">
+            <line x1="23" y1="46" x2="20" y2="54"/>
+            <line x1="33" y1="46" x2="30" y2="54"/>
+            <line x1="43" y1="46" x2="40" y2="54"/>
+          </g>
+        </svg>`,
+        storm: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <path d="M16 38h30a11 11 0 0 0 1-21.95A15 15 0 0 0 18.5 13 12.5 12.5 0 0 0 16 38z" fill="#E2E8F0" fill-opacity="0.9"/>
+          <polygon points="33,36 25,48 31,48 28,59 40,45 34,45" fill="#FDE047"/>
+        </svg>`
+      };
+      return svgs[type] || svgs.partly_cloudy;
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
