@@ -6,7 +6,7 @@
     <atom:link href="https://lamfungjerry.github.io/macau-weather/feed.xml" rel="self" type="application/rss+xml" />
     <description>每日清晨自動整理澳門氣象局實況、昨日溫差對比及穿衣帶傘建議。</description>
     <language>zh-hk</language>
-    <lastBuildDate>Sun, 22 Nov 2026 10:05:48 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 10:20:36 +0800</lastBuildDate>
     <itunes:author>Macau Weather Bot</itunes:author>
     <itunes:summary>每日清晨自動整理澳門氣象局實況、昨日溫差對比及穿衣帶傘建議。</itunes:summary>
     <itunes:explicit>false</itunes:explicit>
@@ -15,7 +15,7 @@
     <item>
       <title>澳門天氣 (2026-11-22)：今日明顯回暖 晚間有微雨</title>
       <guid isPermaLink="false">macau-weather-2026-11-22</guid>
-      <pubDate>Sun, 22 Nov 2026 06:45:00 +0800</pubDate>
+      <pubDate>Sun, 22 Nov 2026 06:30:00 +0800</pubDate>
       <description>今日明顯回暖 晚間有微雨。今日受偏東氣流影響明顯回暖，澳門半島市區早上氣溫已升至20.5至21.2°C，較昨日同時段暖約3至4°C；濕度回升且晚間維持偏暖，體感比昨日和暖舒適。</description>
       <enclosure url="https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-22.mp3" length="436992" type="audio/mpeg" />
       <itunes:summary>今日明顯回暖 晚間有微雨。今日受偏東氣流影響明顯回暖，澳門半島市區早上氣溫已升至20.5至21.2°C，較昨日同時段暖約3至4°C；濕度回升且晚間維持偏暖，體感比昨日和暖舒適。</itunes:summary>
