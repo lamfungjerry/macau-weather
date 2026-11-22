@@ -8,8 +8,6 @@
   <meta name="apple-mobile-web-app-title" content="澳門天氣" />
   <meta name="theme-color" content="#2c5e8a" id="theme-meta" />
   <title>澳門每日天氣簡報</title>
-  <!-- 指向根目錄的 cover.png 作為 iPhone 主畫面圖示 -->
-  <link rel="apple-touch-icon" href="./cover.png" />
   <style>
     :root {
       --glass-bg: rgba(255, 255, 255, 0.16);
@@ -82,6 +80,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      cursor: pointer;
     }
 
     .location-sub {
@@ -597,6 +596,11 @@
     const speeds = [1.0, 1.25, 1.5];
     let currentSpeedIdx = 0;
 
+    // 防跳出外部網站的安全返回機制
+    window.safeBack = function() {
+      if (document.referrer && document.referrer.startsWith(window.location.origin)) { history.back(); }
+    };
+
     // 啟動載入 latest.json（加上時間戳記穿透快取）
     async function initApp() {
       const appEl = document.getElementById('app');
@@ -662,7 +666,7 @@
         <!-- 頂部狀態列 -->
         <header class="top-bar">
           <div class="location-info">
-            <h1>📍 澳門 · ${escapeHtml(dateLabel)} ${escapeHtml(weekdayLabel)}</h1>
+            <h1 onclick="safeBack()">📍 澳門 · ${escapeHtml(dateLabel)} ${escapeHtml(weekdayLabel)}</h1>
             <div class="location-sub">
               <span>${escapeHtml(updatedText)}</span>
             </div>
@@ -693,7 +697,7 @@
           </div>
         </section>
 
-        <!-- 拇指黃金區：廣東話語音簡報播放器 -->
+        <!-- 拇指黃金區：語音簡報播放器 -->
         <section class="glass-card player-card">
           <button class="play-btn" id="play-toggle-btn" onclick="toggleAudio()" aria-label="播放或暫停語音">
             <svg id="play-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -702,7 +706,7 @@
           </button>
           <div class="player-middle">
             <div class="player-title-row">
-              <span>🔊 廣東話天氣語音簡報</span>
+              <span>🔊 語音簡報</span>
               <span class="player-time" id="audio-time">00:00 / --:--</span>
             </div>
             <input type="range" class="progress-bar" id="audio-progress" value="0" min="0" max="100" step="0.1" />
