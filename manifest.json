@@ -1,8 +1,29 @@
 {
-  "last_updated": "2026-11-22T10:39:39+08:00",
-  "latest_date": "2026-11-22",
-  "total_records": 1,
+  "last_updated": "2026-11-23T09:22:16+08:00",
+  "latest_date": "2026-11-23",
+  "total_records": 2,
   "records": [
+    {
+      "date": "2026-11-23",
+      "weekday": "星期一",
+      "json_path": "archive/2026/11/2026-11-23.json",
+      "audio_path": "archive/2026/11/2026-11-23.mp3",
+      "audio_bytes": 239520,
+      "headline": "今日和暖偏濕 深夜起轉有雨",
+      "ai_comparison": "今日澳門繼續回暖，半島市區早上8時氣溫已升至22.3至23.1°C，較昨日同時段暖約2.9至3.6°C；全日預測21至24°C，濕度達70至95%，體感和暖潮濕。",
+      "chart": {
+        "temp_max": 24,
+        "temp_min": 21,
+        "temp_max_delta": 1,
+        "temp_min_delta": 3,
+        "humidity_max": 95,
+        "humidity_min": 70,
+        "rain_prob": 40,
+        "uv_index": 4,
+        "icon": "cloudy",
+        "warning": null
+      }
+    },
     {
       "date": "2026-11-22",
       "weekday": "星期日",

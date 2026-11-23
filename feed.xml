@@ -6,12 +6,21 @@
     <atom:link href="https://lamfungjerry.github.io/macau-weather/feed.xml" rel="self" type="application/rss+xml" />
     <description>每日清晨自動整理澳門氣象局實況、昨日溫差對比及穿衣帶傘建議。</description>
     <language>zh-hk</language>
-    <lastBuildDate>Sun, 22 Nov 2026 10:39:39 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 23 Nov 2026 09:22:16 +0800</lastBuildDate>
     <itunes:author>Macau Weather Bot</itunes:author>
     <itunes:summary>每日清晨自動整理澳門氣象局實況、昨日溫差對比及穿衣帶傘建議。</itunes:summary>
     <itunes:explicit>false</itunes:explicit>
     <itunes:category text="News" />
     <itunes:image href="https://lamfungjerry.github.io/macau-weather/cover.png" />
+    <item>
+      <title>澳門天氣 (2026-11-23)：今日和暖偏濕 深夜起轉有雨</title>
+      <guid isPermaLink="false">macau-weather-2026-11-23</guid>
+      <pubDate>Mon, 23 Nov 2026 06:30:00 +0800</pubDate>
+      <description>今日和暖偏濕 深夜起轉有雨。今日澳門繼續回暖，半島市區早上8時氣溫已升至22.3至23.1°C，較昨日同時段暖約2.9至3.6°C；全日預測21至24°C，濕度達70至95%，體感和暖潮濕。</description>
+      <enclosure url="https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-23.mp3" length="239520" type="audio/mpeg" />
+      <itunes:summary>今日和暖偏濕 深夜起轉有雨。今日澳門繼續回暖，半島市區早上8時氣溫已升至22.3至23.1°C，較昨日同時段暖約2.9至3.6°C；全日預測21至24°C，濕度達70至95%，體感和暖潮濕。</itunes:summary>
+      <itunes:explicit>false</itunes:explicit>
+    </item>
     <item>
       <title>澳門天氣 (2026-11-22)：今日明顯回暖 晚間有微雨</title>
       <guid isPermaLink="false">macau-weather-2026-11-22</guid>
