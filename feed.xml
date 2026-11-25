@@ -1,47 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
-  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
-  xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
-    <title>澳門每日天氣語音簡報</title>
+    <title>澳門每日天氣簡報</title>
     <link>https://lamfungjerry.github.io/macau-weather/</link>
-    <atom:link href="https://lamfungjerry.github.io/macau-weather/feed.xml" rel="self" type="application/rss+xml" />
-    <description>每日清晨自動更新澳門地球物理氣象局（SMG）實況、穿衣與帶遮建議，廣東話語音播報。</description>
+    <description>每日清晨自動更新澳門實況與天氣預報廣東話語音簡報</description>
     <language>zh-hk</language>
-    <lastBuildDate>Wed, 25 Nov 2026 07:05:20 +0800</lastBuildDate>
-    <itunes:author>Macau Weather Bot</itunes:author>
-    <itunes:summary>每日清晨自動更新澳門天氣實況與穿衣建議，廣東話語音播報。</itunes:summary>
+    <itunes:image href="https://lamfungjerry.github.io/macau-weather/cover.png"/>
+    <itunes:category text="News"/>
     <itunes:explicit>false</itunes:explicit>
-    <itunes:category text="News">
-      <itunes:category text="Daily News" />
-    </itunes:category>
-    <itunes:image href="https://lamfungjerry.github.io/macau-weather/cover.png" />
-    <image>
-      <url>https://lamfungjerry.github.io/macau-weather/cover.png</url>
-      <title>澳門每日天氣語音簡報</title>
-      <link>https://lamfungjerry.github.io/macau-weather/</link>
-    </image>
     <item>
-      <title>澳門天氣簡報｜2026-11-25（星期三） - 氣溫再跌2至3度 早晚清涼乾爽</title>
-      <description>【今日 15-20°C｜濕度 50-85%｜間有微雨】
-• 較昨日再涼2至3°C，今晚內港海水倒灌
-• 著長袖加防風厚外套，帶摺遮備用</description>
+      <title>2026-11-25（星期三）澳門天氣簡報：氣溫再跌2至3度 早晚清涼乾爽</title>
+      <description>氣溫再跌2至3度 早晚清涼乾爽（氣溫 15–20°C，降雨機率 30%）</description>
+      <pubDate>Wed, 25 Nov 2026 12:14:00 +0800</pubDate>
       <guid isPermaLink="false">macau-weather-2026-11-25</guid>
-      <pubDate>Wed, 25 Nov 2026 06:30:00 +0800</pubDate>
-      <enclosure url="https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-25.mp3" length="248064" type="audio/mpeg" />
-      <itunes:summary>【今日 15-20°C｜濕度 50-85%｜間有微雨】
-• 較昨日再涼2至3°C，今晚內港海水倒灌
-• 著長袖加防風厚外套，帶摺遮備用</itunes:summary>
-      <itunes:explicit>false</itunes:explicit>
+      <enclosure url="https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-25.mp3" length="893952" type="audio/mpeg"/>
+      <itunes:duration>00:01:30</itunes:duration>
     </item>
     <item>
-      <title>澳門天氣簡報｜2026-11-24（星期二） - 冷鋒殺到早有驟雨 北風增強轉涼</title>
-      <description>2026-11-24 氣溫 17°C 至 23°C，冷鋒殺到早有驟雨 北風增強轉涼</description>
-      <guid isPermaLink="false">macau-weather-2026-11-24</guid>
+      <title>2026-11-24（星期二）澳門天氣簡報：冷鋒殺到早有驟雨 北風增強轉涼</title>
+      <description>冷鋒殺到早有驟雨 北風增強轉涼（氣溫 17–23°C，降雨機率 70%）</description>
       <pubDate>Tue, 24 Nov 2026 06:30:00 +0800</pubDate>
-      <enclosure url="https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-24.mp3" length="235584" type="audio/mpeg" />
-      <itunes:summary>2026-11-24 氣溫 17°C 至 23°C，冷鋒殺到早有驟雨 北風增強轉涼</itunes:summary>
-      <itunes:explicit>false</itunes:explicit>
+      <guid isPermaLink="false">macau-weather-2026-11-24</guid>
+      <enclosure url="" length="235584" type="audio/mpeg"/>
+      <itunes:duration>00:01:30</itunes:duration>
     </item>
   </channel>
 </rss>
