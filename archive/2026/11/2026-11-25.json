@@ -1,12 +1,8 @@
 {
   "date": "2026-11-25",
   "weekday": "星期三",
-  "updated_at": "07:05",
+  "updated_at": "12:14",
   "audio_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-25.mp3",
-  "audio": {
-    "path": "archive/2026/11/2026-11-25.mp3",
-    "bytes": 248064
-  },
   "chart": {
     "temp_max": 20,
     "temp_min": 15,
