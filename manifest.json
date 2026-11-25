@@ -1,18 +1,19 @@
 {
-  "updated_at": "2026-11-25 07:05",
+  "updated_at": "2026-11-25 12:14",
   "items": [
     {
       "date": "2026-11-25",
       "weekday": "星期三",
+      "updated_at": "12:14",
       "headline": "氣溫再跌2至3度 早晚清涼乾爽",
-      "icon": "cloudy",
       "temp_max": 20,
       "temp_min": 15,
       "rain_prob": 30,
+      "icon": "cloudy",
       "warning": null,
-      "json_path": "archive/2026/11/2026-11-25.json",
-      "audio_path": "archive/2026/11/2026-11-25.mp3",
-      "audio_bytes": 248064
+      "json_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-25.json",
+      "audio_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-25.mp3",
+      "audio_bytes": 893952
     },
     {
       "date": "2026-11-24",
