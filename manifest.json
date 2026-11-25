@@ -1,6 +1,20 @@
 {
-  "updated_at": "2026-11-25 12:14",
+  "updated_at": "2026-11-26 06:35",
   "items": [
+    {
+      "date": "2026-11-26",
+      "weekday": "星期四",
+      "updated_at": "06:35",
+      "headline": "早涼午暖溫差達7度 今晚8時起內港水浸",
+      "temp_max": 21,
+      "temp_min": 14,
+      "rain_prob": 20,
+      "icon": "partly_cloudy",
+      "warning": null,
+      "json_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-26.json",
+      "audio_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-26.mp3",
+      "audio_bytes": 830016
+    },
     {
       "date": "2026-11-25",
       "weekday": "星期三",
