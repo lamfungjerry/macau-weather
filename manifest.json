@@ -1,6 +1,20 @@
 {
-  "updated_at": "2026-11-26 10:04",
+  "updated_at": "2026-11-27 06:25",
   "items": [
+    {
+      "date": "2026-11-27",
+      "weekday": "星期五",
+      "updated_at": "06:25",
+      "headline": "今日顯著回暖見陽光 今晚9時起內港微浸",
+      "temp_max": 24,
+      "temp_min": 16,
+      "rain_prob": 10,
+      "icon": "partly_cloudy",
+      "warning": null,
+      "json_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-27.json",
+      "audio_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-27.mp3",
+      "audio_bytes": 803520
+    },
     {
       "date": "2026-11-26",
       "weekday": "星期四",
