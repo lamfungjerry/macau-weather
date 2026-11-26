@@ -4,7 +4,7 @@
     <title>澳門每日天氣簡報</title>
     <link>https://lamfungjerry.github.io/macau-weather/</link>
     <description>每日清晨自動更新澳門實況與天氣預報廣東話語音簡報</description>
-    <language>zh-hk</language>
+    <language>zh-tw</language>
     <itunes:image href="https://lamfungjerry.github.io/macau-weather/cover.png"/>
     <itunes:category text="News"/>
     <itunes:explicit>false</itunes:explicit>
@@ -29,7 +29,7 @@
       <description>冷鋒殺到早有驟雨 北風增強轉涼（氣溫 17–23°C，降雨機率 70%）</description>
       <pubDate>Tue, 24 Nov 2026 06:30:00 +0800</pubDate>
       <guid isPermaLink="false">macau-weather-2026-11-24</guid>
-      <enclosure url="" length="235584" type="audio/mpeg"/>
+      <enclosure url="https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-24.mp3" length="235584" type="audio/mpeg"/>
       <itunes:duration>00:01:30</itunes:duration>
     </item>
   </channel>
