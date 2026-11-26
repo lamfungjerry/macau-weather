@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-26 09:56",
+  "updated_at": "2026-11-26 10:04",
   "items": [
     {
       "date": "2026-11-26",
@@ -32,15 +32,44 @@
     {
       "date": "2026-11-24",
       "weekday": "星期二",
+      "updated_at": "06:55",
       "headline": "冷鋒殺到早有驟雨 北風增強轉涼",
-      "icon": "rain",
       "temp_max": 23,
       "temp_min": 17,
       "rain_prob": 70,
+      "icon": "rain",
       "warning": null,
-      "json_path": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-24.json",
-      "audio_path": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-24.mp3",
+      "json_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-24.json",
+      "audio_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-24.mp3",
       "audio_bytes": 235584
+    },
+    {
+      "date": "2026-11-23",
+      "weekday": "星期一",
+      "updated_at": "06:30",
+      "headline": "今日和暖偏濕 深夜起轉有雨",
+      "temp_max": 24,
+      "temp_min": 21,
+      "rain_prob": 40,
+      "icon": "cloudy",
+      "warning": null,
+      "json_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-23.json",
+      "audio_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-23.mp3",
+      "audio_bytes": 239520
+    },
+    {
+      "date": "2026-11-22",
+      "weekday": "星期日",
+      "updated_at": "06:30",
+      "headline": "今日明顯回暖 晚間有微雨",
+      "temp_max": 23,
+      "temp_min": 18,
+      "rain_prob": 30,
+      "icon": "cloudy",
+      "warning": null,
+      "json_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-22.json",
+      "audio_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-22.mp3",
+      "audio_bytes": 182496
     }
   ]
 }
