@@ -38,8 +38,8 @@
       "temp_min": 17,
       "rain_prob": 70,
       "warning": null,
-      "json_path": "archive/2026/11/2026-11-24.json",
-      "audio_path": "archive/2026/11/2026-11-24.mp3",
+      "json_path": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-24.json",
+      "audio_path": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-24.mp3",
       "audio_bytes": 235584
     }
   ]
