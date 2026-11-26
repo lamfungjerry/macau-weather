@@ -9,6 +9,15 @@
     <itunes:category text="News"/>
     <itunes:explicit>false</itunes:explicit>
     <item>
+      <title>2026-11-27（星期五）澳門天氣簡報：今日顯著回暖見陽光 今晚9時起內港微浸</title>
+      <link>https://lamfungjerry.github.io/macau-weather/</link>
+      <description>今日顯著回暖見陽光 今晚9時起內港微浸（氣溫 16–24°C，降雨機率 10%）</description>
+      <pubDate>Fri, 27 Nov 2026 06:25:00 +0800</pubDate>
+      <guid isPermaLink="false">macau-weather-2026-11-27</guid>
+      <enclosure url="https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-27.mp3" length="803520" type="audio/mpeg"/>
+      <itunes:duration>00:01:30</itunes:duration>
+    </item>
+    <item>
       <title>2026-11-26（星期四）澳門天氣簡報：早涼午暖溫差達7度 今晚8時起內港水浸</title>
       <link>https://lamfungjerry.github.io/macau-weather/</link>
       <description>早涼午暖溫差達7度 今晚8時起內港水浸（氣溫 14–21°C，降雨機率 20%）</description>
