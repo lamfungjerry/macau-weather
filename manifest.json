@@ -1,6 +1,20 @@
 {
-  "updated_at": "2026-11-27 19:27",
+  "updated_at": "2026-11-28 07:06",
   "items": [
+    {
+      "date": "2026-11-28",
+      "weekday": "星期六",
+      "updated_at": "07:06",
+      "headline": "天晴乾燥早晚微涼 午後25度留意火災風險",
+      "temp_max": 25,
+      "temp_min": 17,
+      "rain_prob": 0,
+      "icon": "sunny",
+      "warning": null,
+      "json_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-28.json",
+      "audio_url": "https://lamfungjerry.github.io/macau-weather/archive/2026/11/2026-11-28.mp3",
+      "audio_bytes": 520128
+    },
     {
       "date": "2026-11-27",
       "weekday": "星期五",
